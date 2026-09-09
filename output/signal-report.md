@@ -1,6 +1,6 @@
 # Marketing Signal Review
 
-Generated: 2026-09-09T20:27:46.313Z
+Generated: 2026-09-09T20:29:33.881Z
 
 Checked **3** accounts. Found **2** actionable changes (**1 high**, **1 medium**).
 

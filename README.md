@@ -23,5 +23,6 @@ Outputs are written to `output/`:
 - `signal-report.json` — structured findings
 - `signal-report.md` — review-ready report
 - `signals-baseline.json` — rotated memory for the next run
+- `signal-review.csv` — Excel-compatible review export
 
 The sample includes a high-severity pricing change, a medium-severity hiring signal, and an unchanged account that should produce no alert.

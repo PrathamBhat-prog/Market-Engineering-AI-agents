@@ -1,0 +1,4 @@
+account_id,company_name,severity,icp_status,fit_score,confidence,changes,detected_problem,recommended_action,evidence_urls
+"acme","Acme Analytics","high","disqualified","0","low","pricing changed","No clear marketing-engineering problem detected from the available signal.","Human review: investigate the pricing change and prepare a relevant account brief.","https://example.com/acme/pricing"
+"northstar","Northstar Systems","medium","qualified","35","medium","hiring signal changed","The company may need help connecting marketing data, workflows, or execution systems.","Human review: verify the signal and decide whether this account deserves outreach.","https://example.com/northstar/jobs"
+"brightpath","Brightpath Cloud","none","qualified","35","medium","","The company may need help connecting marketing data, workflows, or execution systems.","No action.","https://example.com/brightpath/jobs"

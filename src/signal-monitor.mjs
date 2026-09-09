@@ -75,9 +75,17 @@ const markdown = [
   ]) : ['No changes detected.']),
 ].join('\n');
 
+const csvFields = ['account_id', 'company_name', 'severity', 'icp_status', 'fit_score', 'confidence', 'changes', 'detected_problem', 'recommended_action', 'evidence_urls'];
+const csvCell = (value) => `"${String(Array.isArray(value) ? value.join('; ') : value ?? '').replaceAll('"', '""')}"`;
+const csv = [
+  csvFields.join(','),
+  ...findings.map((item) => csvFields.map((field) => csvCell(item[field])).join(',')),
+].join('\n');
+
 const outputDir = path.resolve('output');
 await fs.mkdir(outputDir, { recursive: true });
 await fs.writeFile(path.join(outputDir, 'signal-report.json'), JSON.stringify(report, null, 2));
 await fs.writeFile(path.join(outputDir, 'signal-report.md'), markdown);
+await fs.writeFile(path.join(outputDir, 'signal-review.csv'), csv);
 await fs.writeFile(path.join(outputDir, 'signals-baseline.json'), JSON.stringify(current, null, 2));
 console.log(markdown);
