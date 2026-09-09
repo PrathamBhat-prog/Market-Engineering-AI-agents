@@ -39,6 +39,9 @@ function assess(currentItem, previousItem) {
     severity,
     confidence: changes.length ? 'high' : 'high',
     evidence_urls: currentItem.evidence_urls ?? [],
+    signal_date: currentItem.signal_date,
+    source_type: currentItem.source_type,
+    evidence_summary: currentItem.evidence_summary,
     recommended_action: action,
     ...qualification,
     ...buildAccountBrief(currentItem, qualification, changes),
@@ -75,12 +78,13 @@ const markdown = [
     `Why it may matter: ${item.detected_problem}`,
     `Account brief: ${item.account_brief}`,
     `Next best action: ${item.next_best_action}`,
+    `Source: ${item.source_type || 'Not recorded'} | Signal date: ${item.signal_date || 'Not recorded'}`,
     `Evidence: ${item.evidence_urls.map((url) => `[source](${url})`).join(', ') || 'Not provided'}`,
     '',
   ]) : ['No changes detected.']),
 ].join('\n');
 
-const csvFields = ['account_id', 'company_name', 'severity', 'icp_status', 'fit_score', 'confidence', 'changes', 'detected_problem', 'account_brief', 'next_best_action', 'recommended_action', 'evidence_urls'];
+const csvFields = ['account_id', 'company_name', 'signal_date', 'source_type', 'severity', 'icp_status', 'fit_score', 'confidence', 'changes', 'evidence_summary', 'account_brief', 'next_best_action', 'recommended_action', 'evidence_urls'];
 const csvCell = (value) => `"${String(Array.isArray(value) ? value.join('; ') : value ?? '').replaceAll('"', '""')}"`;
 const csv = [
   csvFields.join(','),
