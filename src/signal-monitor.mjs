@@ -76,15 +76,18 @@ const markdown = [
     `Action: ${item.recommended_action}`,
     `ICP status: ${item.icp_status} | Fit score: ${item.fit_score} | Confidence: ${item.confidence}`,
     `Why it may matter: ${item.detected_problem}`,
+    `Service to investigate: ${item.service_offer || 'None yet'}`,
+    `AI-engineering role: ${item.agent_role || 'None yet'}`,
     `Account brief: ${item.account_brief}`,
     `Next best action: ${item.next_best_action}`,
+    `Validation step: ${item.validation_step || 'Not available'}`,
     `Source: ${item.source_type || 'Not recorded'} | Signal date: ${item.signal_date || 'Not recorded'}`,
     `Evidence: ${item.evidence_urls.map((url) => `[source](${url})`).join(', ') || 'Not provided'}`,
     '',
   ]) : ['No changes detected.']),
 ].join('\n');
 
-const csvFields = ['account_id', 'company_name', 'signal_date', 'source_type', 'severity', 'icp_status', 'fit_score', 'confidence', 'changes', 'evidence_summary', 'account_brief', 'next_best_action', 'recommended_action', 'evidence_urls'];
+const csvFields = ['account_id', 'company_name', 'signal_date', 'source_type', 'severity', 'icp_status', 'fit_score', 'confidence', 'problem_id', 'matched_problem_ids', 'service_offer', 'agent_role', 'validation_step', 'changes', 'evidence_summary', 'account_brief', 'next_best_action', 'recommended_action', 'evidence_urls'];
 const csvCell = (value) => `"${String(Array.isArray(value) ? value.join('; ') : value ?? '').replaceAll('"', '""')}"`;
 const csv = [
   csvFields.join(','),

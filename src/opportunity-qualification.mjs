@@ -1,21 +1,25 @@
-const positiveSignals = [
-  { pattern: /marketing ops|marketing operations|revops|revenue operations|demand generation|growth/i, points: 35, reason: 'Hiring indicates operational marketing capacity is a current priority.' },
-  { pattern: /launch|platform|product|expan|fund|acqui|partnership/i, points: 20, reason: 'A business change may create new marketing-system demands.' },
-  { pattern: /pricing changed/i, points: 25, reason: 'A pricing change creates a timely reason to review customer and campaign workflows.' },
-];
+import { mapSignalToService } from './service-fit-agent.mjs';
 
 export function qualifyOpportunity(item) {
-  const text = [item.company_name, item.news_signal, item.hiring_signal, item.product_signal].filter(Boolean).join(' ');
-  const reasons = positiveSignals.filter(({ pattern }) => pattern.test(text));
-  const fit_score = Math.min(100, reasons.reduce((sum, reason) => sum + reason.points, 0));
+  const fit = mapSignalToService(item);
   const hasEvidence = (item.evidence_urls ?? []).length > 0;
-  const status = !hasEvidence ? 'needs_review' : fit_score >= 35 ? 'qualified' : fit_score > 0 ? 'needs_review' : 'disqualified';
+  const qualification_note = fit.service_fit_status === 'qualified'
+    ? 'Direct operational evidence exists, but a human must confirm the process and owner before outreach.'
+    : fit.service_fit_status === 'needs_review'
+      ? 'This is a source-backed trigger, not proof of a buying problem. Verify the process, owner, and urgency.'
+      : 'No source-backed marketing-engineering problem is clear enough to pursue.';
+
   return {
-    icp_status: status,
-    fit_score,
-    confidence: hasEvidence && reasons.length ? 'medium' : 'low',
-    detected_problem: reasons.length ? 'The company may need help connecting marketing data, workflows, or execution systems.' : 'No clear marketing-engineering problem detected from the available signal.',
-    qualification_reasons: reasons.map(({ reason }) => reason),
-    qualification_note: status === 'needs_review' ? 'Verify the signal and company context before taking action.' : undefined,
+    icp_status: fit.service_fit_status,
+    fit_score: fit.service_fit_score,
+    confidence: hasEvidence ? fit.service_fit_confidence : 'low',
+    detected_problem: fit.problem_statement,
+    qualification_reasons: fit.service_fit_reasons.map(({ statement, evidence_strength }) => `${statement} (${evidence_strength} evidence)`),
+    qualification_note,
+    problem_id: fit.problem_id,
+    matched_problem_ids: fit.matched_problem_ids,
+    service_offer: fit.service_offer,
+    agent_role: fit.agent_role,
+    validation_step: fit.validation_step,
   };
 }
