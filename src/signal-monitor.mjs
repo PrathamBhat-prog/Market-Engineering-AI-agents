@@ -1,6 +1,7 @@
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import { qualifyOpportunity } from './opportunity-qualification.mjs';
+import { buildAccountBrief } from './account-brief.mjs';
 
 const [, , currentPath, previousPath] = process.argv;
 if (!currentPath || !previousPath) {
@@ -30,6 +31,7 @@ function assess(currentItem, previousItem) {
       ? 'Human review: verify the signal and decide whether this account deserves outreach.'
       : 'No action.';
 
+  const qualification = qualifyOpportunity(currentItem);
   return {
     account_id: currentItem.account_id,
     company_name: currentItem.company_name,
@@ -38,7 +40,8 @@ function assess(currentItem, previousItem) {
     confidence: changes.length ? 'high' : 'high',
     evidence_urls: currentItem.evidence_urls ?? [],
     recommended_action: action,
-    ...qualifyOpportunity(currentItem),
+    ...qualification,
+    ...buildAccountBrief(currentItem, qualification),
   };
 }
 
@@ -70,12 +73,14 @@ const markdown = [
     `Action: ${item.recommended_action}`,
     `ICP status: ${item.icp_status} | Fit score: ${item.fit_score} | Confidence: ${item.confidence}`,
     `Why it may matter: ${item.detected_problem}`,
+    `Account brief: ${item.account_brief}`,
+    `Next best action: ${item.next_best_action}`,
     `Evidence: ${item.evidence_urls.map((url) => `[source](${url})`).join(', ') || 'Not provided'}`,
     '',
   ]) : ['No changes detected.']),
 ].join('\n');
 
-const csvFields = ['account_id', 'company_name', 'severity', 'icp_status', 'fit_score', 'confidence', 'changes', 'detected_problem', 'recommended_action', 'evidence_urls'];
+const csvFields = ['account_id', 'company_name', 'severity', 'icp_status', 'fit_score', 'confidence', 'changes', 'detected_problem', 'account_brief', 'next_best_action', 'recommended_action', 'evidence_urls'];
 const csvCell = (value) => `"${String(Array.isArray(value) ? value.join('; ') : value ?? '').replaceAll('"', '""')}"`;
 const csv = [
   csvFields.join(','),
