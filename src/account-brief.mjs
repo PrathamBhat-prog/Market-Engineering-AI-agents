@@ -1,5 +1,5 @@
-export function buildAccountBrief(item, qualification) {
-  const signal = item.news_signal || item.product_signal || item.hiring_signal || 'No specific signal recorded.';
+export function buildAccountBrief(item, qualification, changes = []) {
+  const signal = item.news_signal || item.product_signal || item.hiring_signal || changes.join(', ') || 'No specific signal recorded.';
   const evidence = (item.evidence_urls ?? [])[0] || 'No source URL recorded; manual verification required.';
   const action = qualification.icp_status === 'qualified'
     ? 'Review the evidence, identify the responsible marketing or RevOps owner, and decide whether to offer a workflow diagnostic.'

@@ -41,7 +41,7 @@ function assess(currentItem, previousItem) {
     evidence_urls: currentItem.evidence_urls ?? [],
     recommended_action: action,
     ...qualification,
-    ...buildAccountBrief(currentItem, qualification),
+    ...buildAccountBrief(currentItem, qualification, changes),
   };
 }
 
