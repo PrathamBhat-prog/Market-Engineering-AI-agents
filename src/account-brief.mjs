@@ -6,7 +6,7 @@ export function buildAccountBrief(item, qualification, changes = []) {
     ? 'Review the evidence, identify the responsible marketing or RevOps owner, and decide whether to offer a workflow diagnostic.'
     : 'Verify the company context and evidence before deciding whether this belongs in the outreach queue.';
   return {
-    account_brief: `Signal: ${signal} Likely relevance: ${qualification.detected_problem}`,
+    account_brief: `Signal: ${signal} Evidence: ${item.evidence_summary || 'No evidence summary recorded.'} Likely relevance: ${qualification.detected_problem}`,
     evidence_url: evidence,
     next_best_action: action,
     approval_required: true,
