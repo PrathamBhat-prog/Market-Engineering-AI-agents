@@ -14,6 +14,12 @@ The current practice data uses real public-source records. It is intentionally c
 node .\src\signal-monitor.mjs .\examples\signals-current.json .\examples\signals-previous.json
 ```
 
+Reverify the recorded evidence against the live source pages:
+
+```powershell
+node .\src\evidence-verification-agent.mjs .\output\signal-report.json
+```
+
 Ingest a Google News RSS feed or the included local fixture:
 
 ```powershell
@@ -26,6 +32,8 @@ Outputs are written to `output/`:
 - `signal-report.md` — review-ready report
 - `signals-baseline.json` — rotated memory for the next run
 - `signal-review.csv` — Excel-compatible review export
+- `evidence-verification.json` — live-source verification results
+- `evidence-verification.md` — human-readable verification review
 
 The service-fit step currently routes signals to problem hypotheses such as:
 
