@@ -1,0 +1,48 @@
+{
+  "generated_at": "2026-09-09T19:44:30.761Z",
+  "summary": {
+    "accounts_checked": 3,
+    "actionable_findings": 2,
+    "high": 1,
+    "medium": 1
+  },
+  "findings": [
+    {
+      "account_id": "acme",
+      "company_name": "Acme Analytics",
+      "changes": [
+        "pricing changed"
+      ],
+      "severity": "high",
+      "confidence": "high",
+      "evidence_urls": [
+        "https://example.com/acme/pricing"
+      ],
+      "recommended_action": "Human review: investigate the pricing change and prepare a relevant account brief."
+    },
+    {
+      "account_id": "northstar",
+      "company_name": "Northstar Systems",
+      "changes": [
+        "hiring signal changed"
+      ],
+      "severity": "medium",
+      "confidence": "high",
+      "evidence_urls": [
+        "https://example.com/northstar/jobs"
+      ],
+      "recommended_action": "Human review: verify the signal and decide whether this account deserves outreach."
+    },
+    {
+      "account_id": "brightpath",
+      "company_name": "Brightpath Cloud",
+      "changes": [],
+      "severity": "none",
+      "confidence": "high",
+      "evidence_urls": [
+        "https://example.com/brightpath/jobs"
+      ],
+      "recommended_action": "No action."
+    }
+  ]
+}

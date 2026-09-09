@@ -1,0 +1,26 @@
+[
+  {
+    "account_id": "acme",
+    "company_name": "Acme Analytics",
+    "pricing": "Starter $149/month",
+    "hiring_signal": "none",
+    "product_signal": "none",
+    "evidence_urls": ["https://example.com/acme/pricing"]
+  },
+  {
+    "account_id": "northstar",
+    "company_name": "Northstar Systems",
+    "pricing": "Contact sales",
+    "hiring_signal": "hiring marketing ops",
+    "product_signal": "none",
+    "evidence_urls": ["https://example.com/northstar/jobs"]
+  },
+  {
+    "account_id": "brightpath",
+    "company_name": "Brightpath Cloud",
+    "pricing": "Pro $499/month",
+    "hiring_signal": "hiring marketing ops",
+    "product_signal": "none",
+    "evidence_urls": ["https://example.com/brightpath/jobs"]
+  }
+]
