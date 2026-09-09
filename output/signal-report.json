@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-09T19:44:30.761Z",
+  "generated_at": "2026-09-09T20:27:46.313Z",
   "summary": {
     "accounts_checked": 3,
     "actionable_findings": 2,
@@ -14,11 +14,15 @@
         "pricing changed"
       ],
       "severity": "high",
-      "confidence": "high",
+      "confidence": "low",
       "evidence_urls": [
         "https://example.com/acme/pricing"
       ],
-      "recommended_action": "Human review: investigate the pricing change and prepare a relevant account brief."
+      "recommended_action": "Human review: investigate the pricing change and prepare a relevant account brief.",
+      "icp_status": "disqualified",
+      "fit_score": 0,
+      "detected_problem": "No clear marketing-engineering problem detected from the available signal.",
+      "qualification_reasons": []
     },
     {
       "account_id": "northstar",
@@ -27,22 +31,34 @@
         "hiring signal changed"
       ],
       "severity": "medium",
-      "confidence": "high",
+      "confidence": "medium",
       "evidence_urls": [
         "https://example.com/northstar/jobs"
       ],
-      "recommended_action": "Human review: verify the signal and decide whether this account deserves outreach."
+      "recommended_action": "Human review: verify the signal and decide whether this account deserves outreach.",
+      "icp_status": "qualified",
+      "fit_score": 35,
+      "detected_problem": "The company may need help connecting marketing data, workflows, or execution systems.",
+      "qualification_reasons": [
+        "Hiring indicates operational marketing capacity is a current priority."
+      ]
     },
     {
       "account_id": "brightpath",
       "company_name": "Brightpath Cloud",
       "changes": [],
       "severity": "none",
-      "confidence": "high",
+      "confidence": "medium",
       "evidence_urls": [
         "https://example.com/brightpath/jobs"
       ],
-      "recommended_action": "No action."
+      "recommended_action": "No action.",
+      "icp_status": "qualified",
+      "fit_score": 35,
+      "detected_problem": "The company may need help connecting marketing data, workflows, or execution systems.",
+      "qualification_reasons": [
+        "Hiring indicates operational marketing capacity is a current priority."
+      ]
     }
   ]
 }

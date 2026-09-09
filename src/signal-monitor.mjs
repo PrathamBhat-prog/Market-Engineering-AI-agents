@@ -1,5 +1,6 @@
 import fs from 'node:fs/promises';
 import path from 'node:path';
+import { qualifyOpportunity } from './opportunity-qualification.mjs';
 
 const [, , currentPath, previousPath] = process.argv;
 if (!currentPath || !previousPath) {
@@ -37,6 +38,7 @@ function assess(currentItem, previousItem) {
     confidence: changes.length ? 'high' : 'high',
     evidence_urls: currentItem.evidence_urls ?? [],
     recommended_action: action,
+    ...qualifyOpportunity(currentItem),
   };
 }
 
@@ -66,6 +68,8 @@ const markdown = [
     `## ${item.severity.toUpperCase()} — ${item.company_name}`,
     `Changes: ${item.changes.join(', ')}`,
     `Action: ${item.recommended_action}`,
+    `ICP status: ${item.icp_status} | Fit score: ${item.fit_score} | Confidence: ${item.confidence}`,
+    `Why it may matter: ${item.detected_problem}`,
     `Evidence: ${item.evidence_urls.map((url) => `[source](${url})`).join(', ') || 'Not provided'}`,
     '',
   ]) : ['No changes detected.']),
