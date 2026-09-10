@@ -50,6 +50,12 @@ Resolve candidate headlines to canonical publisher pages:
 node .\src\candidate-resolution-agent.mjs
 ```
 
+Enrich candidates from direct public pages and company websites. The optional overrides file is local-only and must not be committed:
+
+```powershell
+node .\src\public-enrichment-agent.mjs
+```
+
 Ingest a specific Google News RSS feed:
 
 ```powershell
@@ -74,6 +80,10 @@ Outputs are written to `output/`:
 - `tam-news-collection.md` — human-readable collection review
 - `tam-candidate-resolution.json` — canonical-page resolution results
 - `tam-candidate-resolution.md` — human-readable resolution review
+- `tam-public-enrichment.json` — locally collected public-page and company-site enrichment
+- `tam-public-enrichment.md` — human-readable enrichment review
+
+Public enrichment may collect company-level public contact channels for later manual research, but it never sends email or initiates contact. Contact or outreach requires explicit user approval.
 
 The service-fit step currently routes signals to problem hypotheses such as:
 
