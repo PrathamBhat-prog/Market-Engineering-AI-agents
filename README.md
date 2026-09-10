@@ -32,6 +32,12 @@ Create non-outreach service-delivery blueprints:
 node .\src\diagnostic-blueprint-agent.mjs .\output\signal-report.json .\output\evidence-verification.json
 ```
 
+Build the initial evidence-based TAM and ICP map:
+
+```powershell
+node .\src\tam-mapping-agent.mjs .\output\signal-report.json .\output\evidence-verification.json .\output\diagnostic-blueprints.json
+```
+
 Ingest a Google News RSS feed or the included local fixture:
 
 ```powershell
@@ -50,6 +56,8 @@ Outputs are written to `output/`:
 - `outreach-readiness.md` — human-readable contact-research queue
 - `diagnostic-blueprints.json` — non-manual service-delivery blueprints
 - `diagnostic-blueprints.md` — human-readable pilot design review
+- `tam-map.json` — structured TAM/ICP hypothesis
+- `tam-map.md` — human-readable TAM/ICP review
 
 The service-fit step currently routes signals to problem hypotheses such as:
 
