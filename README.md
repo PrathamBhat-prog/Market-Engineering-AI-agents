@@ -26,6 +26,12 @@ Gate the results before contact research:
 node .\src\outreach-readiness-agent.mjs .\output\signal-report.json .\output\evidence-verification.json
 ```
 
+Create non-outreach service-delivery blueprints:
+
+```powershell
+node .\src\diagnostic-blueprint-agent.mjs .\output\signal-report.json .\output\evidence-verification.json
+```
+
 Ingest a Google News RSS feed or the included local fixture:
 
 ```powershell
@@ -42,6 +48,8 @@ Outputs are written to `output/`:
 - `evidence-verification.md` — human-readable verification review
 - `outreach-readiness.json` — gated readiness decisions
 - `outreach-readiness.md` — human-readable contact-research queue
+- `diagnostic-blueprints.json` — non-manual service-delivery blueprints
+- `diagnostic-blueprints.md` — human-readable pilot design review
 
 The service-fit step currently routes signals to problem hypotheses such as:
 
