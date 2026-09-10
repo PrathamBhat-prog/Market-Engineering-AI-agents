@@ -20,6 +20,12 @@ Reverify the recorded evidence against the live source pages:
 node .\src\evidence-verification-agent.mjs .\output\signal-report.json
 ```
 
+Gate the results before contact research:
+
+```powershell
+node .\src\outreach-readiness-agent.mjs .\output\signal-report.json .\output\evidence-verification.json
+```
+
 Ingest a Google News RSS feed or the included local fixture:
 
 ```powershell
@@ -34,6 +40,8 @@ Outputs are written to `output/`:
 - `signal-review.csv` — Excel-compatible review export
 - `evidence-verification.json` — live-source verification results
 - `evidence-verification.md` — human-readable verification review
+- `outreach-readiness.json` — gated readiness decisions
+- `outreach-readiness.md` — human-readable contact-research queue
 
 The service-fit step currently routes signals to problem hypotheses such as:
 
