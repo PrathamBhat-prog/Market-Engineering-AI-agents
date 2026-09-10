@@ -44,6 +44,12 @@ Collect fresh public signals for the selected wedge:
 node .\src\tam-signal-collector.mjs
 ```
 
+Resolve candidate headlines to canonical publisher pages:
+
+```powershell
+node .\src\candidate-resolution-agent.mjs
+```
+
 Ingest a specific Google News RSS feed:
 
 ```powershell
@@ -66,6 +72,8 @@ Outputs are written to `output/`:
 - `tam-map.md` — human-readable TAM/ICP review
 - `tam-news-signals.json` — live Google News RSS collection with provenance
 - `tam-news-collection.md` — human-readable collection review
+- `tam-candidate-resolution.json` — canonical-page resolution results
+- `tam-candidate-resolution.md` — human-readable resolution review
 
 The service-fit step currently routes signals to problem hypotheses such as:
 

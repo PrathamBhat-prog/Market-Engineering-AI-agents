@@ -17,6 +17,7 @@ test('RSS parsing preserves provenance and marks account resolution as required'
   const [signal] = parseRssXml(rss, { query: 'AI agents marketing', rss_url: 'https://news.google.com/rss/search?q=AI' });
   assert.equal(signal.account_name_candidate, 'Runable');
   assert.equal(signal.publisher, 'TechCrunch');
+  assert.equal(signal.publisher_url, 'https://techcrunch.com');
   assert.equal(signal.signal_date, '2026-08-26');
   assert.equal(signal.source_url, realSourceUrl);
   assert.equal(signal.requires_account_resolution, false);

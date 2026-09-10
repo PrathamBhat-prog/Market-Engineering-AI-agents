@@ -33,6 +33,7 @@ export function parseRssXml(xml, metadata = {}) {
     const title = field(item, 'title');
     const url = field(item, 'link') || field(item, 'guid');
     const publisher = field(item, 'source');
+    const publisherUrl = decode(item.match(/<source[^>]+url=["']([^"']+)["'][^>]*>/i)?.[1] ?? '');
     const publishedAt = field(item, 'pubDate');
     const accountNameCandidate = identifyAccountCandidate(title);
     const ambiguousAccountCandidate = Boolean(accountNameCandidate && /\band\b|&/i.test(accountNameCandidate));
@@ -44,6 +45,7 @@ export function parseRssXml(xml, metadata = {}) {
       account_name_confidence: accountNameCandidate && !ambiguousAccountCandidate ? 'medium' : 'low',
       title,
       publisher: publisher || null,
+      publisher_url: publisherUrl || null,
       published_at: publishedAt || null,
       signal_date: dateOnly(publishedAt),
       source_type: 'Google News RSS',
