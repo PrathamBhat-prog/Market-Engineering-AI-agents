@@ -38,10 +38,16 @@ Build the initial evidence-based TAM and ICP map:
 node .\src\tam-mapping-agent.mjs .\output\signal-report.json .\output\evidence-verification.json .\output\diagnostic-blueprints.json
 ```
 
-Ingest a Google News RSS feed or the included local fixture:
+Collect fresh public signals for the selected wedge:
 
 ```powershell
-node .\src\google-news-rss.mjs .\examples\google-news-sample.xml .\examples\news-signals.json
+node .\src\tam-signal-collector.mjs
+```
+
+Ingest a specific Google News RSS feed:
+
+```powershell
+node .\src\google-news-rss.mjs "https://news.google.com/rss/search?q=%22AI%20agents%22%20marketing" .\output\rss-signals.json
 ```
 
 Outputs are written to `output/`:
@@ -58,6 +64,8 @@ Outputs are written to `output/`:
 - `diagnostic-blueprints.md` — human-readable pilot design review
 - `tam-map.json` — structured TAM/ICP hypothesis
 - `tam-map.md` — human-readable TAM/ICP review
+- `tam-news-signals.json` — live Google News RSS collection with provenance
+- `tam-news-collection.md` — human-readable collection review
 
 The service-fit step currently routes signals to problem hypotheses such as:
 
