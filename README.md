@@ -94,3 +94,11 @@ The service-fit step currently routes signals to problem hypotheses such as:
 - launch-to-scale operations
 
 Each finding includes the service to investigate, the AI-engineering role inside that service, and the validation step required before outreach.
+
+Build the local Source-aligned operator console from the current review outputs:
+
+```powershell
+node .\src\marketing-engineering-console.mjs
+```
+
+The console combines the retrieve/compare/research/reason/route workflow into a human-review surface. It keeps deterministic facts separate from AI judgment, shows evidence and readiness gates, preserves unresolved states, and performs no contact research, outreach, CRM write, or other external action. The generated HTML and JSON are local-only artifacts and are ignored by Git.

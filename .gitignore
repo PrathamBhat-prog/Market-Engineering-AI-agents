@@ -1,2 +1,5 @@
 # Local Step 2B and Step 3A research artifacts contain company data.
 outputs/step2b-pilot-*/
+# Local Source-aligned operator console artifacts contain research data.
+output/source-aligned-operator-console.html
+output/source-aligned-operator-console.json
