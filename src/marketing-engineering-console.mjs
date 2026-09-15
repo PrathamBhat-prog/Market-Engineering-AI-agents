@@ -23,15 +23,17 @@ function stageFor(finding, verification, readiness, blueprint) {
   return 'Needs review';
 }
 
-export function buildConsoleModel({ report = {}, verification = {}, readiness = {}, blueprints = {} } = {}) {
+export function buildConsoleModel({ report = {}, verification = {}, readiness = {}, blueprints = {}, agentReport = {} } = {}) {
   const evidenceById = new Map(normalizeList(verification.results).map((item) => [item.account_id, item]));
   const readinessById = new Map(normalizeList(readiness.results).map((item) => [item.account_id, item]));
   const blueprintById = new Map(normalizeList(blueprints.blueprints).map((item) => [item.account_id, item]));
+  const agentById = new Map(normalizeList(agentReport.results).map((item) => [item.account_id, item]));
 
   const accounts = normalizeList(report.findings).map((finding) => {
     const evidence = evidenceById.get(finding.account_id) ?? {};
     const gate = readinessById.get(finding.account_id) ?? {};
     const blueprint = blueprintById.get(finding.account_id) ?? {};
+    const agent = agentById.get(finding.account_id) ?? {};
     return {
       account_id: finding.account_id,
       company_name: finding.company_name,
@@ -54,6 +56,11 @@ export function buildConsoleModel({ report = {}, verification = {}, readiness = 
       blueprint_status: blueprint.status ?? 'missing',
       blueprint_output: blueprint.output_artifact ?? null,
       human_approval_required: gate.human_approval_required ?? finding.approval_required ?? true,
+      agent_provider: agent.provider ?? agentReport.provider ?? 'Not run',
+      agent_status: agent.status ?? 'not_run',
+      agent_confidence: agent.confidence ?? 'not scored',
+      agent_enrichment: agent.enrichment ?? null,
+      agent_disagreement: agent.disagreement ?? null,
     };
   });
 
@@ -66,6 +73,8 @@ export function buildConsoleModel({ report = {}, verification = {}, readiness = 
     held_for_human_review: count((item) => item.readiness !== 'ready_for_manual_contact_research'),
     hypothesis_blueprints: count((item) => item.blueprint_status === 'hypothesis_blueprint'),
     not_scored_false_positive_risk: count((item) => item.false_positive_risk === 'not scored'),
+    agent_checked: count((item) => item.agent_status === 'succeeded'),
+    agent_disagreements: count((item) => Boolean(item.agent_disagreement)),
   };
 
   return {
@@ -76,6 +85,7 @@ export function buildConsoleModel({ report = {}, verification = {}, readiness = 
       boundary: 'This console organizes evidence and judgment for human review. It does not claim a confirmed problem, send outreach, or mutate a CRM.',
     },
     summary,
+    agent_summary: agentReport.summary ?? null,
     accounts,
   };
 }
@@ -102,12 +112,14 @@ function renderAccountRow(account) {
     <td>${display(account.judgment)}<small>${display(account.service_offer)}</small></td>
     <td><span class="pill ${escapeHtml(account.readiness)}">${display(account.readiness)}</span><small>${display(account.validation_step)}</small></td>
     <td><span class="${riskClass}">${display(account.false_positive_risk)}</span><small>Confidence: ${display(account.confidence)}</small></td>
+    <td><span class="pill ${escapeHtml(account.agent_status)}">${display(account.agent_status)}</span><small>${display(account.agent_provider)} · ${display(account.agent_confidence)}</small>${account.agent_enrichment ? `<small>${display(account.agent_enrichment)}</small>` : ''}${account.agent_disagreement ? `<small class="disagreement">${display(account.agent_disagreement)}</small>` : ''}</td>
     <td>${link}</td>
   </tr>`;
 }
 
 export function renderConsoleHtml(model) {
   const { summary, accounts, source_methodology: methodology } = model;
+  const demoNotice = model.demo_notice ? `<p class="demo-notice">${escapeHtml(model.demo_notice)}</p>` : '';
   const controlCards = methodology.controls.map(([title, text]) => `<div class="control"><strong>${escapeHtml(title)}</strong><span>${escapeHtml(text)}</span></div>`).join('');
   const workflow = methodology.workflow.map((stage, index) => `<div class="workflow-step"><b>${index + 1}</b><span>${escapeHtml(stage)}</span></div>`).join('');
   const rows = accounts.map(renderAccountRow).join('');
@@ -123,7 +135,7 @@ export function renderConsoleHtml(model) {
 </style>
 </head>
 <body><main>
-<header><h1>Marketing Engineering Operator Console</h1><p>Source-aligned review surface for public signal research. Facts, evidence status, AI judgment, and human gates stay visible in one place.</p><div class="workflow">${workflow}</div></header>
+<header><h1>Marketing Engineering Operator Console</h1><p>Source-aligned review surface for public signal research. Facts, evidence status, AI judgment, and human gates stay visible in one place.</p>${demoNotice}<div class="workflow">${workflow}</div></header>
 <section class="grid">
 <div class="metric"><strong>${summary.accounts_checked}</strong><span>Accounts checked</span></div>
 <div class="metric"><strong>${summary.verified}</strong><span>Evidence verified</span></div>
@@ -131,10 +143,11 @@ export function renderConsoleHtml(model) {
 <div class="metric"><strong>${summary.held_for_human_review}</strong><span>Held for human review</span></div>
 <div class="metric"><strong>${summary.hypothesis_blueprints}</strong><span>Blueprint hypotheses</span></div>
 <div class="metric"><strong>${summary.not_scored_false_positive_risk}</strong><span>Risk not scored</span></div>
+<div class="metric"><strong>${summary.agent_checked}</strong><span>Agent checks succeeded</span></div>
 </section>
 <section class="panel"><h2>Operating controls</h2><div class="controls">${controlCards}</div><p class="footnote">${escapeHtml(methodology.boundary)}</p></section>
 <section class="panel table-wrap"><div class="toolbar"><h2>Account review queue</h2><div><input id="search" type="search" placeholder="Search accounts, stages, services…"><select id="status"><option value="">All evidence states</option><option value="verified">Verified</option><option value="blocked">Blocked</option><option value="failed">Failed</option><option value="missing">Missing</option></select></div></div>
-<table><thead><tr><th>Account</th><th>Workflow stage</th><th>Evidence</th><th>Deterministic fact</th><th>AI judgment</th><th>Human gate</th><th>Risk / confidence</th><th>Source</th></tr></thead><tbody id="queue">${rows || '<tr><td class="empty" colspan="8">No findings available.</td></tr>'}</tbody></table></section>
+<table><thead><tr><th>Account</th><th>Workflow stage</th><th>Evidence</th><th>Deterministic fact</th><th>AI judgment</th><th>Human gate</th><th>Risk / confidence</th><th>Agent cross-check</th><th>Source</th></tr></thead><tbody id="queue">${rows || '<tr><td class="empty" colspan="9">No findings available.</td></tr>'}</tbody></table></section>
 <script>
 const model=${data};
 const rows=[...document.querySelectorAll('#queue tr[data-search]')];
@@ -148,12 +161,12 @@ async function readJson(filePath) {
   return JSON.parse(await fs.readFile(filePath, 'utf8'));
 }
 
-const [, , reportPath = 'output/signal-report.json', verificationPath = 'output/evidence-verification.json', readinessPath = 'output/outreach-readiness.json', blueprintPath = 'output/diagnostic-blueprints.json'] = process.argv;
+const [, , reportPath = 'output/signal-report.json', verificationPath = 'output/evidence-verification.json', readinessPath = 'output/outreach-readiness.json', blueprintPath = 'output/diagnostic-blueprints.json', agentReportPath = 'output/hiring-signal-agent-report.json'] = process.argv;
 if (process.argv[1] && path.resolve(process.argv[1]) === path.resolve(fileURLToPath(import.meta.url))) {
-  const [report, verification, readiness, blueprints] = await Promise.all([
-    readJson(reportPath), readJson(verificationPath), readJson(readinessPath), readJson(blueprintPath),
+  const [report, verification, readiness, blueprints, agentReport] = await Promise.all([
+    readJson(reportPath), readJson(verificationPath), readJson(readinessPath), readJson(blueprintPath), readJson(agentReportPath).catch(() => ({})),
   ]);
-  const model = buildConsoleModel({ report, verification, readiness, blueprints });
+  const model = buildConsoleModel({ report, verification, readiness, blueprints, agentReport });
   await fs.mkdir('output', { recursive: true });
   await fs.writeFile('output/source-aligned-operator-console.json', JSON.stringify(model, null, 2));
   await fs.writeFile('output/source-aligned-operator-console.html', renderConsoleHtml(model));

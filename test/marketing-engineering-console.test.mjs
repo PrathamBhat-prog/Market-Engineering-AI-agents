@@ -33,6 +33,8 @@ test('console model joins evidence, readiness, and blueprint data by account id'
     held_for_human_review: 1,
     hypothesis_blueprints: 1,
     not_scored_false_positive_risk: 2,
+    agent_checked: 0,
+    agent_disagreements: 0,
   });
   assert.equal(model.accounts[0].stage, 'Human review gate');
   assert.equal(model.accounts[1].stage, 'Research blocked');

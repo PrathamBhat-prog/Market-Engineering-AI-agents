@@ -1,5 +1,10 @@
-# Local Step 2B and Step 3A research artifacts contain company data.
-outputs/step2b-pilot-*/
-# Local Source-aligned operator console artifacts contain research data.
-output/source-aligned-operator-console.html
-output/source-aligned-operator-console.json
+# Local research data, spreadsheets, previews, and operator-console exports never enter GitHub.
+/output/
+/outputs/
+/research/
+/examples/
+/tools/node_modules/
+# The public Site is maintained and pushed from its own nested checkout.
+/public-console-site/
+/site-stage/
+/public-console-site-archive.tar.gz
