@@ -10,6 +10,12 @@ const observedAt = new Date("2026-09-11T00:00:00Z");
 const fillForPriority = { HIGH: "#E2F0D9", MEDIUM: "#DDEBF7", LOW: "#F2F2F2", HOLD: "#FFF2CC" };
 const fontForPriority = { HIGH: "#38761D", MEDIUM: "#1F4E78", LOW: "#666666", HOLD: "#9C6500" };
 
+function ensureUniqueTable(sheet, tableName, rangeAddress) {
+  const matches = (sheet.tables.items || []).filter((table) => String(table.name || "") === tableName);
+  for (const duplicate of matches.slice(1)) duplicate.delete();
+  if (matches.length === 0) sheet.tables.add(rangeAddress, true, tableName);
+}
+
 const workbook = await SpreadsheetFile.importXlsx(await FileBlob.load(workbookPath));
 const review = workbook.worksheets.getItem("Review Queue");
 const signals = workbook.worksheets.getItem("Signal Evidence");
@@ -73,7 +79,7 @@ review.getRange("AE:AE").format.columnWidth = 44;
 review.getRange("AF:AH").format.columnWidth = 52;
 review.getRange("AI:AJ").format.columnWidth = 14;
 review.getRange("AK:AK").format.columnWidth = 28;
-review.tables.add("Y7:AK17", true, "Step3AReview");
+ensureUniqueTable(review, "Step3AReview", "Y7:AK17");
 
 signals.getRange("A31").values = [["Step 3A AgentMuxer evidence"]];
 signals.getRange("A32").values = [["One row per account. These observations are independent of the Step 2B public-source rows above and are compared explicitly in the disagreement column."]];
@@ -112,7 +118,7 @@ signals.getRange("C:C").format.columnWidth = 20;
 signals.getRange("D:E").format.columnWidth = 28;
 signals.getRange("K:M").format.columnWidth = 48;
 signals.getRange("N:N").format.columnWidth = 42;
-signals.tables.add("A34:N44", true, "Step3AAgentMuxerEvidence");
+ensureUniqueTable(signals, "Step3AAgentMuxerEvidence", "A34:N44");
 
 methodology.getRange("A43:C43").values = [["Step 3A AgentMuxer run", "Successful provider calls / source", "Use and cost"]];
 methodology.getRange("A44:C47").values = [

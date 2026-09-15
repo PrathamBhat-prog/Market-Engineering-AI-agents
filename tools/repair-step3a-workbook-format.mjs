@@ -10,6 +10,24 @@ const signals = workbook.worksheets.getItem("Signal Evidence");
 const methodology = workbook.worksheets.getItem("Methodology & Sources");
 const enrichment = workbook.worksheets.getItem("ZoomInfo Enrichment");
 
+// Excel requires workbook table names to be unique. Earlier Step 3A reruns
+// created duplicate native table definitions even though the visible ranges
+// were unchanged. Keep the first table with each name and remove only extras.
+const removedDuplicateTables = [];
+for (const sheet of workbook.worksheets.items) {
+  const seenNames = new Set();
+  for (const table of [...(sheet.tables.items || [])]) {
+    const tableName = String(table.name || "");
+    if (seenNames.has(tableName)) {
+      removedDuplicateTables.push(`${sheet.name}:${tableName}`);
+      table.delete();
+    } else {
+      seenNames.add(tableName);
+    }
+  }
+}
+console.log("REMOVED_DUPLICATE_TABLES", JSON.stringify(removedDuplicateTables));
+
 const visibleHeaderFont = { name: "Arial", size: 10, bold: true, color: "#FFFFFF" };
 const headerRanges = [
   [review, "A7:X7"],
@@ -80,6 +98,12 @@ const reviewCheck = await workbook.inspect({
   summary: "Repaired workbook review queue",
 });
 console.log("REVIEW_CHECK\n" + reviewCheck.ndjson);
+
+const tablesAfterRepair = [];
+for (const sheet of workbook.worksheets.items) {
+  tablesAfterRepair.push({ sheet: sheet.name, tables: (sheet.tables.items || []).map((table) => table.name) });
+}
+console.log("TABLES_AFTER_REPAIR\n" + JSON.stringify(tablesAfterRepair));
 
 await fs.mkdir(previewDir, { recursive: true });
 for (const [sheetName, fileName] of [
