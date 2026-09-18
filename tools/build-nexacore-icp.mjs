@@ -7,9 +7,9 @@ import {
 } from "../public-console-site/node_modules/docx/dist/index.mjs";
 
 const outDir = "D:/market engineering/deliverables";
-const docxPath = path.join(outDir, "ICP_SignalForge_Ops_2026-09-19.docx");
-const mdPath = path.join(outDir, "ICP_SignalForge_Ops_2026-09-19.md");
-const metaPath = path.join(outDir, "ICP_SignalForge_Ops_2026-09-19.meta.json");
+const docxPath = path.join(outDir, "SignalForge_Ops_ICP_2026-09-19.docx");
+const mdPath = path.join(outDir, "SignalForge_Ops_ICP_2026-09-19.md");
+const metaPath = path.join(outDir, "SignalForge_Ops_ICP_2026-09-19.meta.json");
 fs.mkdirSync(outDir, { recursive: true });
 
 const WIDTH = 9360;
@@ -35,7 +35,7 @@ const pageBreak = () => new Paragraph({ pageBreakBefore: true, children: [] });
 const children = [
   new Paragraph({ alignment: AlignmentType.CENTER, spacing: { before: 1000, after: 240 }, children: [run("IDEAL CUSTOMER PROFILE", { bold: true, size: 40, color: navy })] }),
   new Paragraph({ alignment: AlignmentType.CENTER, spacing: { after: 180 }, children: [run("SignalForge Ops", { bold: true, size: 32, color: "111827" })] }),
-  new Paragraph({ alignment: AlignmentType.CENTER, spacing: { after: 120 }, children: [run("Prepared using the NexaCore Revenue Partners ICP Definition standard", { size: 22, color: "475569" })] }),
+  new Paragraph({ alignment: AlignmentType.CENTER, spacing: { after: 120 }, children: [run("Evidence-led ideal customer profile", { size: 22, color: "475569" })] }),
   new Paragraph({ alignment: AlignmentType.CENTER, spacing: { after: 700 }, children: [run("19 September 2026", { size: 22, color: "475569" })] }),
   callout("Evidence status", "SignalForge Ops is a fictional test company. This profile uses the supplied client_ICP.docx as its only evidence source. The scorecard and recommendations are working hypotheses, not verified market facts."),
   h1("Executive Decision"),
@@ -44,7 +44,7 @@ const children = [
   table(["Decision", "Answer", "Evidence status"], [
     ["Tier 1 ICP", "Scaling B2B SaaS, 100 to 250 employees, monthly launches, Product Marketing owner", "Working hypothesis from supplied fictional interviews"],
     ["Tier 2 ICP", "B2B workflow SaaS, 50 to 100 employees, quarterly launches, lean Product Marketing team", "Expansion hypothesis"],
-    ["Primary offer wedge", "Launch coordination operator combining source reconciliation, readiness control, and human-approved enablement drafts", "Derived judgment"],
+    ["Primary offer", "Launch coordination operator combining source reconciliation, readiness control, and human-approved enablement drafts", "Derived judgment"],
     ["Outbound gate", "Do not activate broad outbound until trigger, owner, source access, and measurable pilot outcome are verified", "Operating rule"],
   ], [2000, 4760, 2600]),
   pageBreak(),
@@ -131,7 +131,7 @@ const children = [
     ["VP Marketing / CMO", "Economic buyer and outcome owner", "No budget, no executive priority, or no measurable business case"],
     ["Director Product Marketing", "Champion and daily process owner", "No time, no trust, or no willingness to change workflow"],
     ["Product / IT / Security", "Technical evaluator", "No data access, unacceptable permissions, or integration risk"],
-    ["Sales / Customer Success", "Downstream users and validators", "No adoption or no agreement on approved messaging"],
+    ["Sales / Customer Success", "Users and validators", "No adoption or no agreement on approved messaging"],
   ], [2200, 3600, 3560]),
   pageBreak(),
 
@@ -171,7 +171,7 @@ const children = [
   bullet("Do not lead with generic AI transformation language."),
   bullet("Do not promise autonomous launch decisions or fully automated positioning."),
   bullet("Do not call the product a dashboard if the buyer fears another dashboard."),
-  bullet("Do not claim revenue impact until launch delay, rework, and downstream adoption are measured."),
+  bullet("Do not claim revenue impact until launch delay, rework, and adoption are measured."),
   bullet("Do not use a broad phrase such as go-to-market orchestration without connecting it to the launch coordination problem."),
   pageBreak(),
 
@@ -211,7 +211,6 @@ const children = [
   bullet("Open pipeline reviews with Tier 1 mix, not total opportunity count."),
   bullet("Require an explicit exception for accounts outside Tier 1 or Tier 2."),
   bullet("Review marketing performance by ICP tier so low-value reach cannot hide inside blended reporting."),
-  bullet("After ten or more usable closed-won deals exist, graduate this research-based ICP to the NexaCore sharpening-matrix workflow."),
 
   h1("Evidence Register and Validation Plan"),
   table(["Claim or decision", "Evidence available", "Confidence", "Next validation"], [
@@ -225,12 +224,12 @@ const children = [
   callout("Status", "This is a research-based ICP because the supplied source is fictional and contains no verified customer cohort, closed-won deal data, external research, or independent customer transcripts. It is ready for customer discovery and a controlled pilot, not broad outbound."),
   h1("Version and Owner"),
   table(["Field", "Value"], [
-    ["Version", "v1.0 NexaCore-style research ICP"],
+    ["Version", "v1.0 evidence-led research ICP"],
     ["Prepared for", "SignalForge Ops fictional test company"],
-    ["Prepared by", "NexaCore Revenue Partners methodology, executed in the current workspace"],
+    ["Prepared by", "Beyond Five"],
     ["Date", "19 September 2026"],
     ["Next review", "After five additional interviews or the first measured pilot"],
-    ["Downstream handoff", "Problem Matrix Map or Value Wedge Builder after Tier 1 is confirmed"],
+    ["Next decision", "Validate Tier 1 through five additional interviews or a measured pilot"],
   ], [2600, 6760]),
 ];
 
@@ -240,12 +239,12 @@ const doc = new Document({
     { id: "Heading1", name: "Heading 1", basedOn: "Normal", run: { font: "Arial", size: 32, bold: true, color: navy }, paragraph: { spacing: { before: 420, after: 180 }, outlineLevel: 0 } },
     { id: "Heading2", name: "Heading 2", basedOn: "Normal", run: { font: "Arial", size: 26, bold: true, color: navy }, paragraph: { spacing: { before: 280, after: 140 }, outlineLevel: 1 } },
   ] },
-  sections: [{ properties: { page: { size: { width: 12240, height: 15840 }, margin: { top: 1440, right: 1440, bottom: 1440, left: 1440 } } }, footers: { default: new Footer({ children: [new Paragraph({ alignment: AlignmentType.RIGHT, children: [run("NexaCore Revenue Partners | SignalForge Ops | ", { size: 18, color: "64748B" }), PageNumber.CURRENT], spacing: { after: 0 } })] }) }, children }],
+  sections: [{ properties: { page: { size: { width: 12240, height: 15840 }, margin: { top: 1440, right: 1440, bottom: 1440, left: 1440 } } }, footers: { default: new Footer({ children: [new Paragraph({ alignment: AlignmentType.RIGHT, children: [run("Beyond Five | SignalForge Ops | ", { size: 18, color: "64748B" }), PageNumber.CURRENT], spacing: { after: 0 } })] }) }, children }],
 });
 
-const markdown = `# SignalForge Ops Ideal Customer Profile\n\nThis is a fictional test-company ICP built from the supplied client_ICP.docx using the NexaCore ICP Definition standard. It includes a scored segment comparison, Tier 1 and Tier 2 commitments, six profile sections, ranked pain gaps, objections and proof, customer language, and a CEO operationalization plan.\n\nThe evidence base is fictional and should not be used for outbound targeting.\n`;
+const markdown = `# SignalForge Ops Ideal Customer Profile\n\nThis is a fictional test-company ICP built from the supplied client_ICP.docx. It includes a scored segment comparison, Tier 1 and Tier 2 commitments, six profile sections, ranked pain gaps, objections and proof, customer language, and a CEO operationalization plan.\n\nThe evidence base is fictional and should not be used for outbound targeting.\n`;
 fs.writeFileSync(mdPath, markdown, "utf8");
-fs.writeFileSync(metaPath, JSON.stringify({ title: "SignalForge Ops Ideal Customer Profile", author: "NexaCore Revenue Partners methodology", created: "2026-09-19", status: "research-based working hypothesis", source: "C:/Users/GHOST PROTOCOL/Downloads/client_ICP.docx", related_files: [path.basename(docxPath), path.basename(mdPath)], tags: ["ICP", "NexaCore", "SignalForge Ops", "fictional test data"], summary: "Scored, operational ICP with evidence register and validation plan." }, null, 2));
+fs.writeFileSync(metaPath, JSON.stringify({ title: "SignalForge Ops Ideal Customer Profile", author: "Beyond Five", created: "2026-09-19", status: "research-based working hypothesis", source: "C:/Users/GHOST PROTOCOL/Downloads/client_ICP.docx", related_files: [path.basename(docxPath), path.basename(mdPath)], tags: ["ICP", "SignalForge Ops", "fictional test data"], summary: "Scored, operational ICP with evidence register and validation plan." }, null, 2));
 const buffer = await Packer.toBuffer(doc);
 fs.writeFileSync(docxPath, buffer);
 console.log(JSON.stringify({ docxPath, mdPath, metaPath, bytes: buffer.length }));
